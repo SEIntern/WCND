@@ -147,7 +147,7 @@ export default function Signup() {
                 </button>
               </div>
             </div>
-
+  
 
             {/* Terms & Conditions */}
             <div className="flex items-center gap-2">
