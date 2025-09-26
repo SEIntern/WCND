@@ -91,7 +91,7 @@ const sendEmail = async ({ to, subject, html }) => {
 const verifyemail = (verifyUrl) => `
   <div style="${containerStyle} ${baseStyle}">
     <div style="${headerStyle}">
-      <img src=${logo_url} alt="WCND 2026 India" style="max-width:150px;" />
+      <img src="${logo_url}" alt="WCND 2026 India" style="max-width:150px;" />
     </div>
     <p style="${paragraphStyle}">Dear Participant,</p>
     <p style="${paragraphStyle}">Welcome to the <strong>World Congress of Natural Democracy 2026 India</strong>.</p>
@@ -110,7 +110,7 @@ const verifyemail = (verifyUrl) => `
 const forgotPasswordEmail = (name, newPassword) => `
   <div style="${containerStyle} ${baseStyle}">
     <div style="${headerStyle}">
-      <img src=${logo_url} alt="WCND 2026 India" style="max-width:150px;" />
+      <img src="${logo_url}" alt="WCND 2026 India" style="max-width:150px;" />
     </div>
     <p style="${paragraphStyle}">Hello ${name},</p>
     <p style="${paragraphStyle}">Your new password is: <strong>${newPassword}</strong></p>
@@ -125,7 +125,7 @@ const forgotPasswordEmail = (name, newPassword) => `
 const credentialsEmail = (registrationId, email, plainPassword) => `
   <div style="${containerStyle} ${baseStyle}">
     <div style="${headerStyle}">
-      <img src=${logo_url} alt="WCND 2026 India" style="max-width:150px;" />
+      <img src="${logo_url}" alt="WCND 2026 India" style="max-width:150px;" />
     </div>
     <p style="${paragraphStyle}">Dear Participant,</p>
     <p style="${paragraphStyle}">Your email has been successfully verified.</p>
@@ -145,7 +145,7 @@ const credentialsEmail = (registrationId, email, plainPassword) => `
 const paymentConfirmationEmail = (registration, payment) => `
   <div style="${containerStyle} ${baseStyle}">
     <div style="${headerStyle}">
-      <img src=${logo_url} alt="WCND 2026 India" style="max-width:150px;" />
+      <img src="${logo_url}" alt="WCND 2026 India" style="max-width:150px;" />
     </div>
     <p style="${paragraphStyle}">Dear ${registration.fullName},</p>
     <p style="${paragraphStyle}">Your registration fee for <strong>WCND 2026</strong> has been successfully received. Thank you for your payment.</p>
@@ -164,7 +164,7 @@ const paymentConfirmationEmail = (registration, payment) => `
 const announcementEmail = (userName, title, body) => `
   <div style="${containerStyle} ${baseStyle}">
     <div style="${headerStyle}">
-      <img src=${logo_url} alt="WCND 2026 India" style="max-width:150px;" />
+      <img src="${logo_url}" alt="WCND 2026 India" style="max-width:150px;" />
     </div>
     <p style="${paragraphStyle}">Dear ${userName || 'Participant'},</p>
     <br/>
