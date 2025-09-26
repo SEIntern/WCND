@@ -1,6 +1,8 @@
 const userModel = require('../models/userModel');
 const Query = require('../models/queryModel');
 const { sendEmail } = require('../services/mail');
+const STATUS = require('../constant/statusCodes');
+const AppError = require('../utils/AppError');
 
 
 
@@ -44,7 +46,6 @@ const createQuery = async (req, res) => {
   res.status(201).json({ query });
 };
 
-
 const sendQueryResponse = async (req, res) => {
   try {
     const { id } = req.params;
@@ -86,9 +87,26 @@ const sendQueryResponse = async (req, res) => {
   }
 };
 
+const getUserQueries = async (req, res, next) => {
+  try {
+    const userId = req.user.id; 
+
+    const queries = await Query.find({ user: userId }).sort({ _id: -1 });
+
+    return res.status(200).json({
+      status: 'success',
+      results: queries.length,
+      data: queries,
+    });
+  } catch (err) {
+    next(new AppError(err.message, STATUS.INTERNAL_SERVER_ERROR));
+  }
+};
+
+
 const allQueries = async (req, res) => {
   const queries = await Query.find();
   res.status(200).json(queries);
 };
 
-module.exports = { createQuery, sendQueryResponse, allQueries };
+module.exports = { createQuery, sendQueryResponse, allQueries,getUserQueries };
