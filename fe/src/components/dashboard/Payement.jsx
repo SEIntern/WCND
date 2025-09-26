@@ -72,7 +72,7 @@ export const Payement = () => {
       {/* Payment Info */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 mb-6">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">Payment Information</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-gray-700">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 text-gray-700">
           <div>
             <p className={`mb-2 font-semibold ${payment ? "text-green-600" : "text-orange-500"}`}>
               Status: {payment ? "Paid" : "Pending Payment"}
@@ -88,10 +88,7 @@ export const Payement = () => {
             <p className="mb-2">
               <span className="font-semibold">Payment Mode:</span> {registration.paymentMode || "N/A"}
             </p>
-            <p>
-              <span className="font-semibold">Billing/Invoice Details:</span>{" "}
-              {registration.billingInvoiceDetails || "N/A"}
-            </p>
+            {/* Billing/Invoice Details removed as requested */}
           </div>
           <div>
             <p className="mb-2">
@@ -116,11 +113,10 @@ export const Payement = () => {
             <button
               onClick={handleDownloadInvoice}
               disabled={downloadingInvoice}
-              className={`inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white ${
-                downloadingInvoice
+              className={`inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white ${downloadingInvoice
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-green-600 hover:bg-green-700"
-              }`}
+                }`}
             >
               {downloadingInvoice ? (
                 <>

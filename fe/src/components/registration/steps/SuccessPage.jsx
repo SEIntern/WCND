@@ -90,13 +90,6 @@ const SuccessPage = () => {
 
       {/* Buttons */}
       <div className="flex flex-col sm:flex-row justify-center gap-4">
-        <Link
-          to={"/dashboard"}
-          className="px-6 py-2 bg-[#972620] text-white rounded-md hover:bg-[#972620]/90 transition-colors font-medium"
-        >
-          Go to Dashboard
-        </Link>
-
         {!invoiceGenerated && (
           <button
             onClick={handleInvoice}
@@ -108,17 +101,25 @@ const SuccessPage = () => {
         )}
 
         {invoiceGenerated && (
-          <button
-            onClick={handleDownloadInvoice}
-            disabled={downloadingInvoice}
-            className={`px-6 py-2 rounded-md font-medium text-white ${
-              downloadingInvoice
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-green-600 hover:bg-green-700"
-            }`}
-          >
-            {downloadingInvoice ? "Downloading..." : "Download Invoice"}
-          </button>
+          <>
+            <button
+              onClick={handleDownloadInvoice}
+              disabled={downloadingInvoice}
+              className={`px-6 py-2 rounded-md font-medium text-white ${
+                downloadingInvoice
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-green-600 hover:bg-green-700"
+              }`}
+            >
+              {downloadingInvoice ? "Downloading..." : "Download Invoice"}
+            </button>
+            <Link
+              to={"/dashboard"}
+              className="px-6 py-2 bg-[#972620] text-white rounded-md hover:bg-[#972620]/90 transition-colors font-medium"
+            >
+              Go to Dashboard
+            </Link>
+          </>
         )}
       </div>
 
