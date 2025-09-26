@@ -196,7 +196,7 @@ export default function Signup() {
         Thank you for signing up for WCND 2026 India
       </h2>
       <p className="text-gray-600 mb-4">
-        A confirmation link has been sent to your email address.
+        We’ve sent a confirmation link to your email. Please check your inbox (and spam folder if needed) to verify your account.
       </p>
       <p className="text-gray-600 mb-6">
         Didn’t receive it?{' '}
@@ -207,6 +207,7 @@ export default function Signup() {
         >
           Resend Confirmation Link
         </button>
+        
       </p>
       <button
         onClick={closeModal}

@@ -8,6 +8,7 @@ import { useAuth } from "../../context/AuthContext";
 const VerifyEmail = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPopup, setShowPopup] = useState(false); // ✅ Popup state
   const navigate = useNavigate();
   const { fetchUserData } = useAuth();
 
@@ -29,15 +30,20 @@ const VerifyEmail = () => {
       );
 
       toast.success(res.data.message || "Email verified successfully!");
-
       await fetchUserData();
 
-      navigate("/login");
+      // ✅ Show popup instead of direct navigation
+      setShowPopup(true);
     } catch (error) {
       toast.error(error.response?.data?.message || error.message);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleClosePopup = () => {
+    setShowPopup(false);
+    navigate("/login"); // ✅ Redirect after closing popup
   };
 
   return (
@@ -72,6 +78,26 @@ const VerifyEmail = () => {
           </button>
         </form>
       </section>
+
+      {/* ✅ Popup Modal */}
+      {showPopup && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
+          <div className="bg-white w-full max-w-md rounded-lg shadow-lg p-6 text-center">
+            <h2 className="text-xl font-semibold text-[#333] mb-4">
+              ✅ Email Verified!
+            </h2>
+            <p className="text-[#555] mb-6">
+              Your email has been successfully verified. Please proceed to login.
+            </p>
+            <button
+              onClick={handleClosePopup}
+              className="h-[45px] w-full rounded-[10px] bg-[#972620] text-white font-medium transition-colors hover:bg-[#a95551]"
+            >
+              Close & Go to Login
+            </button>
+          </div>
+        </div>
+      )}
     </main>
   );
 };
