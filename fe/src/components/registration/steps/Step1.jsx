@@ -40,6 +40,7 @@ const Step1 = ({ formData, handleInputChange, errors }) => {
         </label>
         {errors?.humanBeingAccepted && <p className="text-red-500 text-xs">{errors.humanBeingAccepted}</p>}
       </div>
+      <span className="text-red-500">Please read and check the guidelines to continue</span>
     </div>
   )
 }

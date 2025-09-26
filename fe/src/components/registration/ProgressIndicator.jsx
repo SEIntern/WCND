@@ -1,13 +1,14 @@
+
 const ProgressIndicator = ({ currentStep, isCompleted }) => {
   return (
-    <div className="mb-8 sm:mb-12 lg:mb-[20px] mt-8 sm:mt-12 lg:mt-[112px]">
-      <div className="relative h-[24px] sm:h-[28px] lg:h-[32px]">
+    <div className="mb-8 sm:mb-12 lg:mb-[20px] mt-8 sm:mt-12 lg:mt-[112px] w-full px-2">
+      <div className="flex items-center justify-between w-full relative" style={{ minWidth: 0 }}>
         {/* Background line */}
-        <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-gray-300 -translate-y-1/2" />
+        <div className="absolute left-0 right-0 top-1/2 h-0.5 bg-gray-300 -translate-y-1/2 z-0" />
 
         {/* Active line */}
         <div
-          className="absolute top-1/2 left-0 h-0.5 bg-[#972620] -translate-y-1/2"
+          className="absolute left-0 top-1/2 h-0.5 bg-[#972620] -translate-y-1/2 z-10"
           style={{
             width: `${Math.min(((currentStep - 1) / 4) * 100, 100)}%`,
           }}
@@ -17,7 +18,8 @@ const ProgressIndicator = ({ currentStep, isCompleted }) => {
         {[1, 2, 3, 4, 5].map((step) => (
           <div
             key={step}
-            className={`absolute top-1/2 w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 rounded-full flex items-center justify-center -translate-y-1/2
+            className={`relative flex items-center justify-center z-20
+              w-5 h-5 sm:w-7 sm:h-7 lg:w-8 lg:h-8 rounded-full
               ${
                 isCompleted || step < currentStep
                   ? "bg-[#972620] text-white"
@@ -25,11 +27,10 @@ const ProgressIndicator = ({ currentStep, isCompleted }) => {
                   ? "bg-white border-2 border-[#972620]"
                   : "bg-gray-300"
               }`}
-            style={{ left: `${((step - 1) / 4) * 100}%` }}
           >
             {isCompleted || step < currentStep ? (
               <svg
-                className="w-3.5 h-3.5 sm:w-4 sm:h-4"
+                className="w-3 h-3 sm:w-4 sm:h-4"
                 fill="currentColor"
                 viewBox="0 0 20 20"
               >
@@ -41,14 +42,12 @@ const ProgressIndicator = ({ currentStep, isCompleted }) => {
               </svg>
             ) : step === currentStep ? (
               <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 bg-[#972620] rounded-full"></div>
-            ) : (
-              ""
-            )}
+            ) : null}
           </div>
         ))}
       </div>
     </div>
-  )
+  );
 }
 
 export default ProgressIndicator

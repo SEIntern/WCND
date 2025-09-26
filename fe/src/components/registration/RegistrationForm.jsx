@@ -83,7 +83,7 @@ const RegistrationForm = () => {
     passportNo: "",
     passportExpiry: "",
     govtId: "",
-    email: "",
+    email: user.email,
     phone: "",
     altPhone: "",
     address: "",

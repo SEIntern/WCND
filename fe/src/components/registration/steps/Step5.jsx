@@ -122,42 +122,42 @@ const Step5 = ({ formData, handleInputChange, errors }) => {
 
       {/* Declaration checkboxes */}
       <div className="space-y-2 mt-4">
-        <label className="flex items-center gap-2">
+        <label className="flex items-start gap-2">
           <input
             type="checkbox"
             checked={formData.agreeCodeOfConduct}
             onChange={(e) => handleInputChange("agreeCodeOfConduct", e.target.checked)}
-            className="accent-[#972620]"
+            className="accent-[#972620] mt-1"
           />
-          <span>I agree to abide by the Congress Code of Conduct, Ethics, and Policy.</span>
+          <span className="text-sm">I agree to abide by the Congress Code of Conduct, Ethics, and Policy.</span>
         </label>
         {errors?.agreeCodeOfConduct && (
           <p className="text-red-500 text-xs">{errors.agreeCodeOfConduct}</p>
         )}
 
-        <label className="flex items-center gap-2">
+        <label className="flex items-start gap-2">
           <input
             type="checkbox"
             checked={formData.confirmEmergencyContactCorrect}
             onChange={(e) =>
               handleInputChange("confirmEmergencyContactCorrect", e.target.checked)
             }
-            className="accent-[#972620]"
+            className="accent-[#972620] mt-1"
           />
-          <span>I confirm my emergency contact info is correct.</span>
+          <span className="text-sm">I confirm my emergency contact info is correct.</span>
         </label>
         {errors?.confirmEmergencyContactCorrect && (
           <p className="text-red-500 text-xs">{errors.confirmEmergencyContactCorrect}</p>
         )}
 
-        <label className="flex items-center gap-2">
+        <label className="flex items-start gap-2">
           <input
             type="checkbox"
             checked={formData.valuesAffirmation}
             onChange={(e) => handleInputChange("valuesAffirmation", e.target.checked)}
-            className="accent-[#972620]"
+            className="accent-[#972620] mt-1"
           />
-          <span>
+          <span className="text-sm">
             I solemnly affirm my commitment to uphold respect for all life and the
             natural environment; maintain academic rigor, transparency, and integrity;
             collaborate responsibly; honor diverse perspectives; act ethically and

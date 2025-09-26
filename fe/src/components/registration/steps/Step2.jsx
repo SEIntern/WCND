@@ -436,9 +436,9 @@ const Step2 = ({
                   </div>
                   {/* Auto fields  */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-gray-600">
-                    <p>
+                    {/* <p>
                       <strong>Accompanying Person Fee:</strong>
-                    </p>
+                    </p> */}
                     <p>
                       <strong>Main Delegate:</strong> {formData.fullName || "—"}
                     </p>
