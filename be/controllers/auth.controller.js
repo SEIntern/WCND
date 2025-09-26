@@ -31,6 +31,30 @@ const getCaptcha = (req, res) => {
   res.status(200).send(captcha.data);
 };
 
+const resendemailVerification = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) return res.status(400).json({ message: 'Email is required' });
+
+    // Find user
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+
+    // Send email
+    await sendEmail({
+      to: email,
+      subject: 'Verify Your Email - WCND 2026 India',
+      html: verifyemail("https://wcnd.onrender.com/verify-email"),
+    });
+
+    res.status(200).json({ message: 'Verification email sent successfully!' });
+  } catch (err) {
+    next(err);
+  }
+};
+
 const signup = async (req, res, next) => {
   try {
     const { name, email, captchaInput } = req.body;
@@ -238,4 +262,5 @@ module.exports = {
   forgotPassword,
   logout,
   emailVerification,
+  resendemailVerification
 };

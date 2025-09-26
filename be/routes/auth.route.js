@@ -8,6 +8,7 @@ const {
   forgotPassword,
   logout,
   emailVerification,
+  resendemailVerification
 } = require('../controllers/auth.controller');
 const authMiddleware = require('../middleware/authMiddleware');
 const roleMiddleware = require('../middleware/roleMiddleware');
@@ -26,7 +27,7 @@ router.post('/change-password', authMiddleware, changePassword);
 router.post('/forgot-password', forgotPassword);
 router.post('/logout', authMiddleware, logout);
 router.post('/email-verify', emailVerification);
-
+router.post('/resend-verify', resendemailVerification);
 router.post('/upload-profile', authMiddleware, upload.single('profileImage'), async (req, res) => {
   try {
     if (!req.file) {

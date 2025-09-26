@@ -30,54 +30,72 @@ export default function Signup() {
     fetchCaptcha();
   }, []);
 
+      // Add this function inside your Signup component
+const resendConfirmationLink = async () => {
+  if (!userEmail) return; // Safety check
+  try {
+    setLoading(true);
+    const res = await axios.post(
+      `${import.meta.env.VITE_ALLOWED_ORIGIN}/resend-verify`,
+      { email: userEmail },
+      { withCredentials: true }
+    );
+    toast.success("Verification link resent!");
+  } catch (err) {
+    toast.error(err.response?.data?.message || "Failed to resend link");
+  } finally {
+    setLoading(false);
+  }
+};
   // --- Form submit ---
   async function handleSubmit(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    const fd = new FormData(e.currentTarget);
-    const name = fd.get("name")?.trim();
-    const email = fd.get("email")?.trim();
+  const fd = new FormData(e.currentTarget);
+  const name = fd.get("name")?.trim();
+  const email = fd.get("email")?.trim();
 
-    // --- Validation ---
-    if (!name) {
-      toast.error("Please enter your full name");
-      return;
-    }
-    if (!email) {
-      toast.error("Please enter your email address");
-      return;
-    }
-    if (!captchaInput) {
-      toast.error("Please enter the captcha");
-      return;
-    }
-    if (!acceptedTnC) {
-      toast.error("Please accept the Terms & Conditions to continue");
-      return;
-    }
 
-    const payload = { name, email, captchaInput };
-
-    try {
-      setLoading(true);
-      const res = await axios.post(
-        `${import.meta.env.VITE_ALLOWED_ORIGIN}/signup`,
-        payload,
-        { withCredentials: true }
-      );
-
-      // ✅ Only show modal if signup was successful
-      toast.success(res.data?.message || "Signup successful!");
-      setUserEmail(email);
-      setShowModal(true);
-    } catch (err) {
-      toast.error(err.response?.data?.message || "Something went wrong");
-      fetchCaptcha();
-    } finally {
-      setLoading(false);
-      setCaptchaInput("");
-    }
+  // --- Validation ---
+  if (!name) {
+    toast.error("Please enter your full name");
+    return;
   }
+  if (!email) {
+    toast.error("Please enter your email address");
+    return;
+  }
+  if (!captchaInput) {
+    toast.error("Please enter the captcha");
+    return;
+  }
+  if (!acceptedTnC) {
+    toast.error("Please accept the Terms & Conditions to continue");
+    return;
+  }
+
+  const payload = { name, email, captchaInput };
+
+  try {
+    setLoading(true);
+    const res = await axios.post(
+      `${import.meta.env.VITE_ALLOWED_ORIGIN}/signup`,
+      payload,
+      { withCredentials: true }
+    );
+
+    //  Only show modal if signup was successful
+    toast.success(res.data?.message || "Signup successful!");
+    setUserEmail(email);
+    setShowModal(true);
+  } catch (err) {
+    toast.error(err.response?.data?.message || "Something went wrong");
+    fetchCaptcha();
+  } finally {
+    setLoading(false);
+    setCaptchaInput("");
+  }
+}
 
 
   const closeModal = () => {
@@ -122,32 +140,32 @@ export default function Signup() {
 
             {/* Captcha */}
             <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4 bg-gray-50 p-4 rounded-xl border border-gray-200 shadow-sm w-full max-w-lg">
-              {/* Captcha Box */}
-              <div
-                dangerouslySetInnerHTML={{ __html: captchaSvg }}
-                className="flex-shrink-0 w-full sm:w-[120px] h-[60px] flex items-center justify-center bg-white border border-gray-300 rounded-lg shadow-inner"
-              />
+  {/* Captcha Box */}
+  <div
+    dangerouslySetInnerHTML={{ __html: captchaSvg }}
+    className="flex-shrink-0 w-full sm:w-[120px] h-[60px] flex items-center justify-center bg-white border border-gray-300 rounded-lg shadow-inner"
+  />
 
-              {/* Input + Button (stack on mobile, inline on desktop) */}
-              <div className="flex w-full gap-2">
-                <input
-                  type="text"
-                  value={captchaInput}
-                  onChange={(e) => setCaptchaInput(e.target.value)}
-                  placeholder="Enter captcha"
-                  className="h-[50px] flex-1 rounded-lg border border-gray-300 px-4 focus:ring-2 focus:ring-[#972620] focus:outline-none text-gray-700 placeholder-gray-400"
-                />
+  {/* Input + Button (stack on mobile, inline on desktop) */}
+  <div className="flex w-full gap-2">
+    <input
+      type="text"
+      value={captchaInput}
+      onChange={(e) => setCaptchaInput(e.target.value)}
+      placeholder="Enter captcha"
+      className="h-[50px] flex-1 rounded-lg border border-gray-300 px-4 focus:ring-2 focus:ring-[#972620] focus:outline-none text-gray-700 placeholder-gray-400"
+    />
 
-                <button
-                  type="button"
-                  onClick={fetchCaptcha}
-                  className="p-3 rounded-lg border border-[#972620] text-[#972620] hover:bg-[#972620] hover:text-white transition-all shadow-sm"
-                >
-                  <RefreshCcw className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-  
+    <button
+      type="button"
+      onClick={fetchCaptcha}
+      className="p-3 rounded-lg border border-[#972620] text-[#972620] hover:bg-[#972620] hover:text-white transition-all shadow-sm"
+    >
+      <RefreshCcw className="w-5 h-5" />
+    </button>
+  </div>
+</div>
+
 
             {/* Terms & Conditions */}
             <div className="flex items-center gap-2">
@@ -189,35 +207,35 @@ export default function Signup() {
       </main>
 
       {/* Modal */}
-      {showModal && (
-        <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 px-4">
-          <div className="bg-white rounded-2xl p-8 max-w-md w-full text-center shadow-xl border border-[#EAEAEA]">
-            <h2 className="text-xl font-semibold text-[#972620] mb-4">
-              Thank you for signing up for WCND 2026 India
-            </h2>
-            <p className="text-gray-600 mb-4">
-              We’ve sent a confirmation link to your email. Please check your inbox (and spam folder if needed) to verify your account.
-            </p>
-            <p className="text-gray-600 mb-6">
-              Didn’t receive it?{' '}
-              <button
-                // onClick={resendConfirmationLink}
-                onClick={closeModal}
-                className="text-[#972620] font-medium hover:underline"
-              >
-                Resend Confirmation Link
-              </button>
-
-            </p>
-            <button
-              onClick={closeModal}
-              className="w-full bg-[#972620] text-white py-3 rounded-lg font-medium hover:bg-[#a95551] transition-colors"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+{showModal && (
+  <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 px-4">
+    <div className="bg-white rounded-2xl p-8 max-w-md w-full text-center shadow-xl border border-[#EAEAEA]">
+      <h2 className="text-xl font-semibold text-[#972620] mb-4">
+        Thank you for signing up for WCND 2026 India
+      </h2>
+      <p className="text-gray-600 mb-4">
+        We’ve sent a confirmation link to your email. Please check your inbox (and spam folder if needed) to verify your account.
+      </p>
+      <p className="text-gray-600 mb-6">
+        Didn’t receive it?{' '}
+        <button
+          onClick={resendConfirmationLink}
+          // onClick={closeModal}
+          className="text-[#972620] font-medium hover:underline"
+        >
+          Resend Confirmation Link
+        </button>
+        
+      </p>
+      <button
+        onClick={closeModal}
+        className="w-full bg-[#972620] text-white py-3 rounded-lg font-medium hover:bg-[#a95551] transition-colors"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+)}
 
     </>
   );
