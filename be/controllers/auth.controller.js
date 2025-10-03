@@ -4,32 +4,36 @@ const { v4: uuidv4 } = require('uuid');
 const nodemailer = require('nodemailer');
 const { generateToken } = require('../utils/jwt');
 const { nanoid } = require('nanoid');
-const svgCaptcha = require('svg-captcha');
 require('dotenv').config();
 const sendResponse = require('../utils/sendResponse');
 const AppError = require('../utils/AppError');
 const STATUS = require('../constant/statusCodes');
-const { sendEmail, verifyemail, forgotPasswordEmail, credentialsEmail } = require('../services/mail');
-
-
-
+const {
+  sendEmail,
+  verifyemail,
+  forgotPasswordEmail,
+  credentialsEmail
+} = require('../services/mail');
 
 const getCaptcha = (req, res) => {
-  const captcha = svgCaptcha.create({
-    size: 6,
-    ignoreChars: '0o1i',
-  });
+  const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+  let captchaText = '';
+  for (let i = 0; i < 6; i++) {
+    captchaText += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
 
-  res.cookie('captcha_text', captcha.text, {
+  res.cookie('captcha_text', captchaText, {
     httpOnly: true,
     sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
     secure: process.env.NODE_ENV === 'production',
     maxAge: 5 * 60 * 1000,
   });
 
-  res.type('svg');
-  res.status(200).send(captcha.data);
+  res.status(200).json({
+    text: captchaText,
+  });
 };
+
 
 const resendemailVerification = async (req, res, next) => {
   try {
@@ -41,12 +45,11 @@ const resendemailVerification = async (req, res, next) => {
     const user = await User.findOne({ email });
     if (!user) return res.status(404).json({ message: 'User not found' });
 
-
     // Send email
     await sendEmail({
       to: email,
       subject: 'Verify Your Email - WCND 2026 India',
-      html: verifyemail("https://wcnd.onrender.com/verify-email"),
+      html: verifyemail('https://wcnd.onrender.com/verify-email'),
     });
 
     res.status(200).json({ message: 'Verification email sent successfully!' });
@@ -71,7 +74,9 @@ const signup = async (req, res, next) => {
 
     const existingUser = await User.findOne({ email: email.toLowerCase() });
     if (existingUser) {
-      return next(new AppError('User with this email already exists. Please Login.', STATUS.BAD_REQUEST));
+      return next(
+        new AppError('User with this email already exists. Please Login.', STATUS.BAD_REQUEST)
+      );
     }
 
     const user = new User({
@@ -80,22 +85,25 @@ const signup = async (req, res, next) => {
       role: 'user',
       password: '0',
     });
-    
 
     // --- send email via Brevo ---
     sendEmail({
       to: email,
       subject: 'WCND 2026 INDIA — Confirm Your Registration',
-      html: verifyemail("https://wcnd.onrender.com/verify-email"),
+      html: verifyemail('https://wcnd.onrender.com/verify-email'),
     });
 
     await user.save();
-    sendResponse(res, STATUS.CREATED, 'User created successfully and verification email sent. Please verify your email.', {});
+    sendResponse(
+      res,
+      STATUS.CREATED,
+      'User created successfully and verification email sent. Please verify your email.',
+      {}
+    );
   } catch (error) {
     next(error);
   }
 };
-
 
 const login = async (req, res, next) => {
   try {
@@ -192,7 +200,6 @@ const forgotPassword = async (req, res, next) => {
       html: forgotPasswordEmail(user.name, newPassword),
     });
 
-
     sendResponse(res, STATUS.OK, 'New password sent to your email');
   } catch (err) {
     next(err);
@@ -247,7 +254,6 @@ const emailVerification = async (req, res, next) => {
       html: credentialsEmail(registrationId, email, plainPassword),
     });
 
-
     sendResponse(res, STATUS.OK, 'Email verified successfully. Credentials sent.');
   } catch (error) {
     next(error);
@@ -262,5 +268,5 @@ module.exports = {
   forgotPassword,
   logout,
   emailVerification,
-  resendemailVerification
+  resendemailVerification,
 };
