@@ -41,13 +41,13 @@ export default function Signup() {
     for (let i = 0; i < 20; i++) {
       ctx.beginPath();
       ctx.arc(Math.random() * width, Math.random() * height, 1 + Math.random(), 0, 2 * Math.PI);
-      ctx.fillStyle = "#4d74c9";
+      ctx.fillStyle = "#000";
       ctx.fill();
     }
 
     // 2 Blue curved lines
     for (let i = 0; i < 1; i++) {
-      ctx.strokeStyle = "#4d74c9";
+      ctx.strokeStyle = "#000";
       ctx.lineWidth = 2;
       ctx.beginPath();
       ctx.moveTo(Math.random() * width, Math.random() * height);
@@ -60,7 +60,7 @@ export default function Signup() {
     // Bold, blue, monospaced, slightly rotated/distorted text (one char at a time)
     ctx.font = "bold 36px 'Courier New', Courier, monospace";
     ctx.textBaseline = "middle";
-    ctx.fillStyle = "#4d74c9";
+    ctx.fillStyle = "#000";
     for (let i = 0; i < text.length; i++) {
       const x = 14 + i * 21, y = 30 + Math.random() * 8;
       ctx.save();
